@@ -1,30 +1,9 @@
-import { Component } from 'react';
 
 import './employees-list-item.css'
 
-class EmployersListItem  extends Component{
+const  EmployersListItem = (props) => {
 
-    constructor(props){
-        super(props);
-        this.state ={
-            increase: false,
-            like: false
-        }
-    }
-
-    onIncrease = () => {
-        this.setState(({increase}) => ({
-            increase: !increase 
-        }))
-    }
-
-    onLike = () => {
-        this.setState(({like})=> ({
-            like: !like
-        }))
-    }
-
-    render(){
+    
 
         const {name, salary, onDelete, onToggleIncrease, onToggleRise} = this.props;
         const {increase, like} = this.state;
@@ -59,6 +38,5 @@ class EmployersListItem  extends Component{
             </li>
         );
     }
-};
 
 export default EmployersListItem;
