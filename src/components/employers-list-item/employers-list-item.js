@@ -3,7 +3,7 @@ import './employees-list-item.css'
 
 const  EmployersListItem = (props) => {
 
-        const {name, salary, onDelete, onToggleRise, onToggleIncrease, increase, rise} = props;
+        const {name, salary, onDelete, onToggleProp, increase, rise} = props;
 
 
         let classNames = 'list-group-item d-flex justify-content-between';
@@ -17,11 +17,12 @@ const  EmployersListItem = (props) => {
     
         return(
             <li className={classNames}>
-                <span className="list-group-item-label" onClick={onToggleRise}>{name}</span>
+                <span className="list-group-item-label" data-toggle="rise" onClick={onToggleProp}>{name}</span>
                 <input type="text" className="list-group-item-input" defaultValue={salary + "$"}/>
                 <div className='d-flex justify-content-center align-items-center'>
                     <button type="button"
-                        onClick = {onToggleIncrease}
+                        onClick = {onToggleProp}
+                        data-toggle="increase"
                         className="btn-cookie btn-sm ">
                         <i className="fas fa-cookie"></i>
                     </button>
