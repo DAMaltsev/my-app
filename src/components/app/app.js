@@ -19,9 +19,10 @@ class App extends Component{
                 {name: "Heket", salary: 1500, increase: false, id: 3, rise: false}
             ],
         }
-        this.maxID = 4
-       
+        this.maxID = 4 
     }
+
+
 
     deleteItem = (id) => {
         this.setState(({data}) => {
@@ -76,14 +77,28 @@ class App extends Component{
     }
 
     onToggleRise = (id) => {
-        console.log(`Rise this ${id}`);
+        this.setState(({data})=>({
+            data: data.map(item => {
+                if(item.id===id){
+                    return {...item, rise: ! item.rise}
+                }
+                return item;
+            })
+        }))
     }
 
 
     render(){
+
+        const commonQty = this.state.data.length
+
+        const rised = this.state.data.filter(item => item.increase).length
+
         return(
             <div className="app">
-                <AppInfo/>
+                <AppInfo
+                commonQty={commonQty}
+                rised={rised}/>
     
                 <div className="search-panel">
                     <SearchPanel/>
