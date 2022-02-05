@@ -14,9 +14,9 @@ class App extends Component{
         super(props);
         this.state = {
             data: [
-                {name: "John", salary: 3100, increase: false, id: 1},
-                {name: "Dan", salary: 1200, increase: true, id: 2},
-                {name: "Heket", salary: 1500, increase: false, id: 3}
+                {name: "John", salary: 3100, increase: false, id: 1, rise: true},
+                {name: "Dan", salary: 1200, increase: true, id: 2, rise: false},
+                {name: "Heket", salary: 1500, increase: false, id: 3, rise: false}
             ],
         }
         this.maxID = 4
@@ -39,6 +39,7 @@ class App extends Component{
             name,
             salary,
             increase: false,
+            rise: false,
             id: this.maxID++
         }
 
@@ -51,7 +52,18 @@ class App extends Component{
     }
 
     onToggleIncrease = (id) => {
-        console.log(`Increase this ${id}`);
+        this.setState(({data})=> {
+            const index = data.findIndex(elem => elem.id === id);
+
+            const old = data[index];
+            const newItem = {...old, increase: !old.increase};
+            const newArr = [...data.slice(0, index), newItem, ...data.slice(index + 1)];
+
+            return {
+                data:newArr
+            }
+
+        })
     }
 
     onToggleRise = (id) => {
