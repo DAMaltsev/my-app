@@ -18,6 +18,7 @@ class App extends Component{
                 {name: "Dan", salary: 1200, increase: true, id: 2, rise: false},
                 {name: "Heket", salary: 1500, increase: false, id: 3, rise: false}
             ],
+            term: ''
         }
         this.maxID = 4 
     }
@@ -46,9 +47,15 @@ class App extends Component{
 
         this.setState(({data}) => {
             const newArr = [...data, newUser]
-            return {
-                data: newArr
+            if (newUser.name.length > 2 && newUser.salary > 0) {
+                return {
+                    data: newArr
+                }
             }
+            else {
+                alert("Введите все данные для нового пользователя");
+            }
+
         })
     }
 
@@ -79,11 +86,27 @@ class App extends Component{
     }
 
 
+    searchEmp = (items, term) => {
+        if(term.length === 0) {
+            return items;
+        }
+        return items.filter(item => {
+            return item.name.indexOf(term) > -1;
+        })
+    }
+
+    onUpdateSearch = (term) => {
+        this.setState({term});
+    }
+
     render(){
 
-        const commonQty = this.state.data.length
+        const {data, term} = this.state;
+        const commonQty = this.state.data.length;
 
-        const rised = this.state.data.filter(item => item.increase).length
+        const rised = this.state.data.filter(item => item.increase).length;
+
+        const visiableData = this.searchEmp(data, term);
 
         return(
             <div className="app">
@@ -92,12 +115,12 @@ class App extends Component{
                 rised={rised}/>
     
                 <div className="search-panel">
-                    <SearchPanel/>
+                    <SearchPanel onUpdateSearch={this.onUpdateSearch}/>
                     <AppFilter/>
                 </div>
     
                 <EmployersList 
-                data={this.state.data}
+                data={visiableData}
                 onDelete={this.deleteItem}
                 onToggleProp={this.onToggleProp}/>
                 <EmployersAddForm data={this.state.data}
