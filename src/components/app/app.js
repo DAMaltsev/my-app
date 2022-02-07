@@ -18,7 +18,8 @@ class App extends Component{
                 {name: "Dan", salary: 1200, increase: true, id: 2, rise: false},
                 {name: "Heket", salary: 1500, increase: false, id: 3, rise: false}
             ],
-            term: ''
+            term: '',
+            filter: ''
         }
         this.maxID = 4 
     }
@@ -95,18 +96,29 @@ class App extends Component{
         })
     }
 
+    filterPost = (items, filter) =>{ 
+        switch(filter) {
+            case 'rise':
+                return items.filter(item => item.rise);
+            case 'moreThan1000': 
+                return items.filter(item => item.salary > 1000);
+            default: 
+                return items
+        }
+    }
+   
+
     onUpdateSearch = (term) => {
         this.setState({term});
     }
 
     render(){
 
-        const {data, term} = this.state;
+        const {data, term, filter} = this.state;
         const commonQty = this.state.data.length;
+        const rised = data.filter(item => item.increase).length;
+        const visiableData = this.filterPost( this.searchEmp(data, term), filter);
 
-        const rised = this.state.data.filter(item => item.increase).length;
-
-        const visiableData = this.searchEmp(data, term);
 
         return(
             <div className="app">
@@ -116,14 +128,14 @@ class App extends Component{
     
                 <div className="search-panel">
                     <SearchPanel onUpdateSearch={this.onUpdateSearch}/>
-                    <AppFilter/>
+                    <AppFilter filterRise={this.filterPost(visiableData)}/>
                 </div>
     
                 <EmployersList 
                 data={visiableData}
                 onDelete={this.deleteItem}
                 onToggleProp={this.onToggleProp}/>
-                <EmployersAddForm data={this.state.data}
+                <EmployersAddForm data={data}
                 onAdd= {this.createItem}/>
             </div>
         );
